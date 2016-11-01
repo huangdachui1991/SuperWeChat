@@ -46,7 +46,7 @@ public class UserDao {
 	 * @param contactList
 	 */
 	public void saveContactList(List<EaseUser> contactList) {
-	    SuperWechatDBManager.getInstance().saveContactList(contactList);
+	    SuperWeChatDBManager.getInstance().saveContactList(contactList);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class UserDao {
 	 */
 	public Map<String, EaseUser> getContactList() {
 		
-	    return SuperWechatDBManager.getInstance().getContactList();
+	    return SuperWeChatDBManager.getInstance().getContactList();
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class UserDao {
 	 * @param username
 	 */
 	public void deleteContact(String username){
-	    SuperWechatDBManager.getInstance().deleteContact(username);
+	    SuperWeChatDBManager.getInstance().deleteContact(username);
 	}
 	
 	/**
@@ -72,30 +72,30 @@ public class UserDao {
 	 * @param user
 	 */
 	public void saveContact(EaseUser user){
-	    SuperWechatDBManager.getInstance().saveContact(user);
+	    SuperWeChatDBManager.getInstance().saveContact(user);
 	}
 	
 	public void setDisabledGroups(List<String> groups){
-	    SuperWechatDBManager.getInstance().setDisabledGroups(groups);
+	    SuperWeChatDBManager.getInstance().setDisabledGroups(groups);
     }
     
     public List<String>  getDisabledGroups(){       
-        return SuperWechatDBManager.getInstance().getDisabledGroups();
+        return SuperWeChatDBManager.getInstance().getDisabledGroups();
     }
     
     public void setDisabledIds(List<String> ids){
-        SuperWechatDBManager.getInstance().setDisabledIds(ids);
+        SuperWeChatDBManager.getInstance().setDisabledIds(ids);
     }
     
     public List<String> getDisabledIds(){
-        return SuperWechatDBManager.getInstance().getDisabledIds();
+        return SuperWeChatDBManager.getInstance().getDisabledIds();
     }
     
     public Map<String, RobotUser> getRobotUser(){
-    	return SuperWechatDBManager.getInstance().getRobotList();
+    	return SuperWeChatDBManager.getInstance().getRobotList();
     }
     
     public void saveRobotUser(List<RobotUser> robotList){
-    	SuperWechatDBManager.getInstance().saveRobotList(robotList);
+    	SuperWeChatDBManager.getInstance().saveRobotList(robotList);
     }
 }

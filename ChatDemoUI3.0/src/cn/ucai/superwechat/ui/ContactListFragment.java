@@ -17,8 +17,8 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import com.hyphenate.chat.EMClient;
-import cn.ucai.superwechat.SuperWechatHelper;
-import cn.ucai.superwechat.SuperWechatHelper.DataSyncListener;
+import cn.ucai.superwechat.SuperWeChatHelper;
+import cn.ucai.superwechat.SuperWeChatHelper.DataSyncListener;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
@@ -77,7 +77,7 @@ public class ContactListFragment extends EaseContactListFragment {
     
     @Override
     public void refresh() {
-        Map<String, EaseUser> m = SuperWechatHelper.getInstance().getContactList();
+        Map<String, EaseUser> m = SuperWeChatHelper.getInstance().getContactList();
         if (m instanceof Hashtable<?, ?>) {
             //noinspection unchecked
             m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>)m).clone();
@@ -108,7 +108,7 @@ public class ContactListFragment extends EaseContactListFragment {
             }
         });
         //设置联系人数据
-        Map<String, EaseUser> m = SuperWechatHelper.getInstance().getContactList();
+        Map<String, EaseUser> m = SuperWeChatHelper.getInstance().getContactList();
         if (m instanceof Hashtable<?, ?>) {
             m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>)m).clone();
         }
@@ -139,17 +139,17 @@ public class ContactListFragment extends EaseContactListFragment {
         
         
         contactSyncListener = new ContactSyncListener();
-        SuperWechatHelper.getInstance().addSyncContactListener(contactSyncListener);
+        SuperWeChatHelper.getInstance().addSyncContactListener(contactSyncListener);
         
         blackListSyncListener = new BlackListSyncListener();
-        SuperWechatHelper.getInstance().addSyncBlackListListener(blackListSyncListener);
+        SuperWeChatHelper.getInstance().addSyncBlackListListener(blackListSyncListener);
         
         contactInfoSyncListener = new ContactInfoSyncListener();
-        SuperWechatHelper.getInstance().getUserProfileManager().addSyncContactInfoListener(contactInfoSyncListener);
+        SuperWeChatHelper.getInstance().getUserProfileManager().addSyncContactInfoListener(contactInfoSyncListener);
         
-        if (SuperWechatHelper.getInstance().isContactsSyncedWithServer()) {
+        if (SuperWeChatHelper.getInstance().isContactsSyncedWithServer()) {
             loadingView.setVisibility(View.GONE);
-        } else if (SuperWechatHelper.getInstance().isSyncingContactsWithServer()) {
+        } else if (SuperWeChatHelper.getInstance().isSyncingContactsWithServer()) {
             loadingView.setVisibility(View.VISIBLE);
         }
     }
@@ -158,16 +158,16 @@ public class ContactListFragment extends EaseContactListFragment {
     public void onDestroy() {
         super.onDestroy();
         if (contactSyncListener != null) {
-            SuperWechatHelper.getInstance().removeSyncContactListener(contactSyncListener);
+            SuperWeChatHelper.getInstance().removeSyncContactListener(contactSyncListener);
             contactSyncListener = null;
         }
         
         if(blackListSyncListener != null){
-            SuperWechatHelper.getInstance().removeSyncBlackListListener(blackListSyncListener);
+            SuperWeChatHelper.getInstance().removeSyncBlackListListener(blackListSyncListener);
         }
         
         if(contactInfoSyncListener != null){
-            SuperWechatHelper.getInstance().getUserProfileManager().removeSyncContactInfoListener(contactInfoSyncListener);
+            SuperWeChatHelper.getInstance().getUserProfileManager().removeSyncContactInfoListener(contactInfoSyncListener);
         }
     }
     
@@ -250,7 +250,7 @@ public class ContactListFragment extends EaseContactListFragment {
 					// remove user from memory and database
 					UserDao dao = new UserDao(getActivity());
 					dao.deleteContact(tobeDeleteUser.getUsername());
-					SuperWechatHelper.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
+					SuperWeChatHelper.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();

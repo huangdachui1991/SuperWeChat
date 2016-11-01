@@ -28,10 +28,10 @@ import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
-import cn.ucai.superwechat.SuperWechatApplication;
-import cn.ucai.superwechat.SuperWechatHelper;
+import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.R;
-import cn.ucai.superwechat.db.SuperWechatDBManager;
+import cn.ucai.superwechat.db.SuperWeChatDBManager;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 /**
@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		// enter the main activity if already logged in
-		if (SuperWechatHelper.getInstance().isLoggedIn()) {
+		if (SuperWeChatHelper.getInstance().isLoggedIn()) {
 			autoLogin = true;
 			startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
@@ -80,8 +80,8 @@ public class LoginActivity extends BaseActivity {
 
 			}
 		});
-		if (SuperWechatHelper.getInstance().getCurrentUsernName() != null) {
-			usernameEditText.setText(SuperWechatHelper.getInstance().getCurrentUsernName());
+		if (SuperWeChatHelper.getInstance().getCurrentUsernName() != null) {
+			usernameEditText.setText(SuperWeChatHelper.getInstance().getCurrentUsernName());
 		}
 	}
 
@@ -123,10 +123,10 @@ public class LoginActivity extends BaseActivity {
 
 		// After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
 		// close it before login to make sure DemoDB not overlap
-        SuperWechatDBManager.getInstance().closeDB();
+        SuperWeChatDBManager.getInstance().closeDB();
 
         // reset current user name before login
-        SuperWechatHelper.getInstance().setCurrentUserName(currentUsername);
+        SuperWeChatHelper.getInstance().setCurrentUserName(currentUsername);
         
 		final long start = System.currentTimeMillis();
 		// call login method
@@ -144,7 +144,7 @@ public class LoginActivity extends BaseActivity {
 
 			    // update current user's display name for APNs
 				boolean updatenick = EMClient.getInstance().updateCurrentUserNick(
-						SuperWechatApplication.currentUserNick.trim());
+						SuperWeChatApplication.currentUserNick.trim());
 				if (!updatenick) {
 					Log.e("LoginActivity", "update current user nick fail");
 				}
@@ -153,7 +153,7 @@ public class LoginActivity extends BaseActivity {
 				    pd.dismiss();
 				}
 				// get user's info (this should be get from App's server or 3rd party service)
-				SuperWechatHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+				SuperWeChatHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
 
 				Intent intent = new Intent(LoginActivity.this,
 						MainActivity.class);
