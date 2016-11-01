@@ -43,7 +43,7 @@ import cn.ucai.superwechat.utils.MFGT;
  *
  */
 public class RegisterActivity extends BaseActivity {
-    
+
     @BindView(R.id.img_back)
     ImageView mimgBack;
     @BindView(R.id.txt_title)
