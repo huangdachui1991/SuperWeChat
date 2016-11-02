@@ -1,11 +1,12 @@
 package cn.ucai.superwechat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.easemob.redpacketui.RedPacketConstant;
 import com.easemob.redpacketui.utils.RedPacketUtil;
@@ -25,9 +26,30 @@ import com.hyphenate.chat.EMMessage.Status;
 import com.hyphenate.chat.EMMessage.Type;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.controller.EaseUI.EaseEmojiconInfoProvider;
+import com.hyphenate.easeui.controller.EaseUI.EaseSettingsProvider;
+import com.hyphenate.easeui.controller.EaseUI.EaseUserProfileProvider;
+import com.hyphenate.easeui.domain.EaseEmojicon;
+import com.hyphenate.easeui.domain.EaseEmojiconGroupEntity;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
+import com.hyphenate.easeui.model.EaseAtMessageHelper;
+import com.hyphenate.easeui.model.EaseNotifier;
+import com.hyphenate.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.util.EMLog;
 
-import cn.ucai.superwechat.db.SuperWeChatDBManager;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import cn.ucai.superwechat.db.InviteMessgeDao;
+import cn.ucai.superwechat.db.SuperWeChatDBManager;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.EmojiconExampleGroupData;
 import cn.ucai.superwechat.domain.InviteMessage;
@@ -38,28 +60,10 @@ import cn.ucai.superwechat.ui.ChatActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.VideoCallActivity;
 import cn.ucai.superwechat.ui.VoiceCallActivity;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.PreferenceManager;
-import com.hyphenate.easeui.controller.EaseUI;
-import com.hyphenate.easeui.controller.EaseUI.EaseEmojiconInfoProvider;
-import com.hyphenate.easeui.controller.EaseUI.EaseSettingsProvider;
-import com.hyphenate.easeui.controller.EaseUI.EaseUserProfileProvider;
-import com.hyphenate.easeui.domain.EaseEmojicon;
-import com.hyphenate.easeui.domain.EaseEmojiconGroupEntity;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.model.EaseAtMessageHelper;
-import com.hyphenate.easeui.model.EaseNotifier;
-import com.hyphenate.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.EMLog;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+import static com.hyphenate.easeui.utils.EaseUserUtils.getUserInfo;
 
 public class SuperWeChatHelper {
     /**
@@ -91,11 +95,13 @@ public class SuperWeChatHelper {
 	private static SuperWeChatHelper instance = null;
 	
 	private SuperWeChatModel demoModel = null;
+    private User currentUser = null;
 	
 	/**
      * sync groups status listener
      */
     private List<DataSyncListener> syncGroupsListeners;
+
     /**
      * sync contacts status listener
      */
@@ -214,7 +220,12 @@ public class SuperWeChatHelper {
             public EaseUser getUser(String username) {
                 return getUserInfo(username);
             }
+            @Override
+            public User getAppUser(String username){
+                return null;
+            }
         });
+
 
         //set options 
         easeUI.setSettingsProvider(new EaseSettingsProvider() {
@@ -1238,6 +1249,18 @@ public class SuperWeChatHelper {
 
     public void popActivity(Activity activity) {
         easeUI.popActivity(activity);
+    }
+    public User getCurrentUser() {
+        if (currentUser == null) {
+            String username = EMClient.getInstance().getCurrentUser();
+            L.e(TAG, "getCurrentUsername=" + username);
+            currentUser = new User(username);
+        }
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
 }
