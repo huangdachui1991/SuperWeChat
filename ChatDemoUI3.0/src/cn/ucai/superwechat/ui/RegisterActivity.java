@@ -36,6 +36,7 @@ import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
 
 /**
@@ -159,12 +160,14 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
+
+    //环信服务器注册
     private void registerEMServer() {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     // call method in SDK
-                    EMClient.getInstance().createAccount(username, pwd);
+                    EMClient.getInstance().createAccount(username, MD5.getMessageDigest(pwd));
                     runOnUiThread(new Runnable() {
                         public void run() {
                             if (!RegisterActivity.this.isFinishing())
