@@ -30,12 +30,12 @@ import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.User;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.hyphenate.easeui.domain.User;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.SuperWeChatHelper;
@@ -283,6 +283,8 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		pd.dismiss();
+		if(pd!=null) {
+			pd.dismiss();
+		}
 	}
 }
