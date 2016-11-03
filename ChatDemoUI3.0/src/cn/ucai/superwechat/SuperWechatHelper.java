@@ -1,5 +1,4 @@
 package cn.ucai.superwechat;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -95,7 +94,6 @@ public class SuperWeChatHelper {
 
     private SuperWeChatModel demoModel = null;
 
-    private User currentUser = null;
     private Map<String, User> appContactList;
 
     /**
@@ -743,6 +741,7 @@ public class SuperWeChatHelper {
             user = new User(username);
             EaseCommonUtils.setAppUserInitialLetter(user);
         }
+        L.e(TAG,"user="+user);
         return user;
     }
 
@@ -1252,6 +1251,7 @@ public class SuperWeChatHelper {
         isGroupAndContactListenerRegisted = false;
 
         setContactList(null);
+        setAppContactList(null);
         setRobotList(null);
         getUserProfileManager().reset();
         SuperWeChatDBManager.getInstance().closeDB();
@@ -1263,19 +1263,6 @@ public class SuperWeChatHelper {
 
     public void popActivity(Activity activity) {
         easeUI.popActivity(activity);
-    }
-
-    public User getCurrentUser() {
-        if(currentUser==null){
-            String username = EMClient.getInstance().getCurrentUser();
-            L.e(TAG,"getCurrentUsername="+username);
-            currentUser = new User(username);
-        }
-        return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
     }
 
     /**
@@ -1308,7 +1295,8 @@ public class SuperWeChatHelper {
      * @return
      */
     public Map<String, User> getAppContactList() {
-        if (isLoggedIn() && appContactList == null) {
+        L.e(TAG,"getAppContactList,appContactList="+appContactList);
+        if (isLoggedIn() && (appContactList == null || appContactList.size()==0)) {
             appContactList = demoModel.getAppContactList();
         }
 
@@ -1317,6 +1305,7 @@ public class SuperWeChatHelper {
             return new Hashtable<String, User>();
         }
 
+        L.e(TAG,"getAppContactList,appContactList="+appContactList.size());
         return appContactList;
     }
     /**

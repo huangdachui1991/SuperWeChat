@@ -8,9 +8,6 @@ import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.utils.MD5;
 
-/**
- * Created by huangdachui on 2016/11/2.
- */
 
 public class NetDao {
 
