@@ -28,7 +28,7 @@ public class UserDao {
 	public static final String COLUMN_NAME_ID = "username";
 	public static final String COLUMN_NAME_NICK = "nick";
 	public static final String COLUMN_NAME_AVATAR = "avatar";
-	
+
 	public static final String PREF_TABLE_NAME = "pref";
 	public static final String COLUMN_NAME_DISABLED_GROUPS = "disabled_groups";
 	public static final String COLUMN_NAME_DISABLED_IDS = "disabled_ids";
@@ -46,68 +46,68 @@ public class UserDao {
 	public static final String USER_COLUMN_AVATAR_SUFFIX = "m_user_avatar_suffix";
 	public static final String USER_COLUMN_AVATAR_TYPE = "m_user_avatar_type";
 	public static final String USER_COLUMN_AVATAR_LASTUPDATE_TIME = "m_user_avatar_lastupdate_time";
-	
+
 	public UserDao(Context context) {
 	}
 
 	/**
 	 * save contact list
-	 * 
+	 *
 	 * @param contactList
 	 */
 	public void saveContactList(List<EaseUser> contactList) {
-	    SuperWeChatDBManager.getInstance().saveContactList(contactList);
+		SuperWeChatDBManager.getInstance().saveContactList(contactList);
 	}
 
 	/**
 	 * get contact list
-	 * 
+	 *
 	 * @return
 	 */
 	public Map<String, EaseUser> getContactList() {
-		
-	    return SuperWeChatDBManager.getInstance().getContactList();
+
+		return SuperWeChatDBManager.getInstance().getContactList();
 	}
-	
+
 	/**
 	 * delete a contact
 	 * @param username
 	 */
 	public void deleteContact(String username){
-	    SuperWeChatDBManager.getInstance().deleteContact(username);
+		SuperWeChatDBManager.getInstance().deleteContact(username);
 	}
-	
+
 	/**
 	 * save a contact
 	 * @param user
 	 */
 	public void saveContact(EaseUser user){
-	    SuperWeChatDBManager.getInstance().saveContact(user);
+		SuperWeChatDBManager.getInstance().saveContact(user);
 	}
-	
+
 	public void setDisabledGroups(List<String> groups){
-	    SuperWeChatDBManager.getInstance().setDisabledGroups(groups);
-    }
-    
-    public List<String>  getDisabledGroups(){       
-        return SuperWeChatDBManager.getInstance().getDisabledGroups();
-    }
-    
-    public void setDisabledIds(List<String> ids){
-        SuperWeChatDBManager.getInstance().setDisabledIds(ids);
-    }
-    
-    public List<String> getDisabledIds(){
-        return SuperWeChatDBManager.getInstance().getDisabledIds();
-    }
-    
-    public Map<String, RobotUser> getRobotUser(){
-    	return SuperWeChatDBManager.getInstance().getRobotList();
-    }
-    
-    public void saveRobotUser(List<RobotUser> robotList){
-    	SuperWeChatDBManager.getInstance().saveRobotList(robotList);
-    }
+		SuperWeChatDBManager.getInstance().setDisabledGroups(groups);
+	}
+
+	public List<String>  getDisabledGroups(){
+		return SuperWeChatDBManager.getInstance().getDisabledGroups();
+	}
+
+	public void setDisabledIds(List<String> ids){
+		SuperWeChatDBManager.getInstance().setDisabledIds(ids);
+	}
+
+	public List<String> getDisabledIds(){
+		return SuperWeChatDBManager.getInstance().getDisabledIds();
+	}
+
+	public Map<String, RobotUser> getRobotUser(){
+		return SuperWeChatDBManager.getInstance().getRobotList();
+	}
+
+	public void saveRobotUser(List<RobotUser> robotList){
+		SuperWeChatDBManager.getInstance().saveRobotList(robotList);
+	}
 
 	public boolean saveUser(User user){
 		return SuperWeChatDBManager.getInstance().saveUser(user);
@@ -121,4 +121,3 @@ public class UserDao {
 		return SuperWeChatDBManager.getInstance().updateUser(user);
 	}
 }
-

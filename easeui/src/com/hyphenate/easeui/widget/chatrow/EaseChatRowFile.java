@@ -3,7 +3,6 @@ package com.hyphenate.easeui.widget.chatrow;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -77,30 +76,30 @@ public class EaseChatRowFile extends EaseChatRow{
         setMessageSendCallback();
         switch (message.status()) {
         case SUCCESS:
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(INVISIBLE);
             if(percentageView != null)
-                percentageView.setVisibility(View.INVISIBLE);
-            statusView.setVisibility(View.INVISIBLE);
+                percentageView.setVisibility(INVISIBLE);
+            statusView.setVisibility(INVISIBLE);
             break;
         case FAIL:
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(INVISIBLE);
             if(percentageView != null)
-                percentageView.setVisibility(View.INVISIBLE);
-            statusView.setVisibility(View.VISIBLE);
+                percentageView.setVisibility(INVISIBLE);
+            statusView.setVisibility(VISIBLE);
             break;
         case INPROGRESS:
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(VISIBLE);
             if(percentageView != null){
-                percentageView.setVisibility(View.VISIBLE);
+                percentageView.setVisibility(VISIBLE);
                 percentageView.setText(message.progress() + "%");
             }
-            statusView.setVisibility(View.INVISIBLE);
+            statusView.setVisibility(INVISIBLE);
             break;
         default:
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(INVISIBLE);
             if(percentageView != null)
-                percentageView.setVisibility(View.INVISIBLE);
-            statusView.setVisibility(View.VISIBLE);
+                percentageView.setVisibility(INVISIBLE);
+            statusView.setVisibility(VISIBLE);
             break;
         }
     }

@@ -25,7 +25,7 @@ import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
-import com.hyphenate.easeui.widget.EaseConversationList.EaseConversationListHelper;
+import com.hyphenate.easeui.widget.EaseConversationList;
 import com.hyphenate.util.DateUtils;
 
 import java.util.ArrayList;
@@ -283,9 +283,9 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         }
     }
 
-    private EaseConversationListHelper cvsListHelper;
+    private EaseConversationList.EaseConversationListHelper cvsListHelper;
 
-    public void setCvsListHelper(EaseConversationListHelper cvsListHelper){
+    public void setCvsListHelper(EaseConversationList.EaseConversationListHelper cvsListHelper){
         this.cvsListHelper = cvsListHelper;
     }
     

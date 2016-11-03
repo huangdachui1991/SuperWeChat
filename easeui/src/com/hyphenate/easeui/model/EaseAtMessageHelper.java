@@ -14,9 +14,9 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.utils.EaseUserUtils;
 
 public class EaseAtMessageHelper {
     private List<String> toAtUserList = new ArrayList<String>();

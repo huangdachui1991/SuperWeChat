@@ -10,7 +10,6 @@ import com.hyphenate.exceptions.HyphenateException;
 
 import android.content.Context;
 import android.text.Spannable;
-import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
@@ -49,20 +48,20 @@ public class EaseChatRowText extends EaseChatRow{
             setMessageSendCallback();
             switch (message.status()) {
             case CREATE: 
-                progressBar.setVisibility(View.GONE);
-                statusView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(GONE);
+                statusView.setVisibility(VISIBLE);
                 break;
             case SUCCESS:
-                progressBar.setVisibility(View.GONE);
-                statusView.setVisibility(View.GONE);
+                progressBar.setVisibility(GONE);
+                statusView.setVisibility(GONE);
                 break;
             case FAIL:
-                progressBar.setVisibility(View.GONE);
-                statusView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(GONE);
+                statusView.setVisibility(VISIBLE);
                 break;
             case INPROGRESS:
-                progressBar.setVisibility(View.VISIBLE);
-                statusView.setVisibility(View.GONE);
+                progressBar.setVisibility(VISIBLE);
+                statusView.setVisibility(GONE);
                 break;
             default:
                break;

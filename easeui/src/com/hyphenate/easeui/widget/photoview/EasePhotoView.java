@@ -35,10 +35,6 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.hyphenate.easeui.widget.photoview.PhotoViewAttacher.OnMatrixChangedListener;
-import com.hyphenate.easeui.widget.photoview.PhotoViewAttacher.OnPhotoTapListener;
-import com.hyphenate.easeui.widget.photoview.PhotoViewAttacher.OnViewTapListener;
-
 public class EasePhotoView extends ImageView implements IPhotoView {
 
 	private final PhotoViewAttacher mAttacher;
@@ -145,7 +141,7 @@ public class EasePhotoView extends ImageView implements IPhotoView {
 	}
 
 	@Override
-	public void setOnMatrixChangeListener(OnMatrixChangedListener listener) {
+	public void setOnMatrixChangeListener(PhotoViewAttacher.OnMatrixChangedListener listener) {
 		mAttacher.setOnMatrixChangeListener(listener);
 	}
 
@@ -155,12 +151,12 @@ public class EasePhotoView extends ImageView implements IPhotoView {
 	}
 
 	@Override
-	public void setOnPhotoTapListener(OnPhotoTapListener listener) {
+	public void setOnPhotoTapListener(PhotoViewAttacher.OnPhotoTapListener listener) {
 		mAttacher.setOnPhotoTapListener(listener);
 	}
 
 	@Override
-	public void setOnViewTapListener(OnViewTapListener listener) {
+	public void setOnViewTapListener(PhotoViewAttacher.OnViewTapListener listener) {
 		mAttacher.setOnViewTapListener(listener);
 	}
 

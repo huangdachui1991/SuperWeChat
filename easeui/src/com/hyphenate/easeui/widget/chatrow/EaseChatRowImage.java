@@ -9,8 +9,8 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.model.EaseImageCache;
-import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.hyphenate.easeui.utils.EaseImageUtils;
 
 import android.content.Context;
@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,8 +53,8 @@ public class EaseChatRowImage extends EaseChatRowFile{
                 imageView.setImageResource(R.drawable.ease_default_image);
                 setMessageReceiveCallback();
             } else {
-                progressBar.setVisibility(View.GONE);
-                percentageView.setVisibility(View.GONE);
+                progressBar.setVisibility(GONE);
+                percentageView.setVisibility(GONE);
                 imageView.setImageResource(R.drawable.ease_default_image);
                 String thumbPath = imgBody.thumbnailLocalPath();
                 if (!new File(thumbPath).exists()) {

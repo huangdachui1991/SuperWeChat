@@ -45,13 +45,10 @@ import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
-import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
 import com.hyphenate.easeui.widget.EaseChatExtendMenu;
 import com.hyphenate.easeui.widget.EaseChatInputMenu;
-import com.hyphenate.easeui.widget.EaseChatInputMenu.ChatInputMenuListener;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
-import com.hyphenate.easeui.widget.EaseVoiceRecorderView.EaseVoiceRecorderCallback;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
@@ -147,7 +144,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         registerExtendMenuItem();
         // init input menu
         inputMenu.init(null);
-        inputMenu.setChatInputMenuListener(new ChatInputMenuListener() {
+        inputMenu.setChatInputMenuListener(new EaseChatInputMenu.ChatInputMenuListener() {
 
             @Override
             public void onSendMessage(String content) {
@@ -156,7 +153,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
             @Override
             public boolean onPressToSpeakBtnTouch(View v, MotionEvent event) {
-                return voiceRecorderView.onPressToSpeakBtnTouch(v, event, new EaseVoiceRecorderCallback() {
+                return voiceRecorderView.onPressToSpeakBtnTouch(v, event, new EaseVoiceRecorderView.EaseVoiceRecorderCallback() {
                     
                     @Override
                     public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
@@ -303,7 +300,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             
             @Override
             public void onResendClick(final EMMessage message) {
-                new EaseAlertDialog(getActivity(), R.string.resend, R.string.confirm_resend, null, new AlertDialogUser() {
+                new EaseAlertDialog(getActivity(), R.string.resend, R.string.confirm_resend, null, new EaseAlertDialog.AlertDialogUser() {
                     @Override
                     public void onResult(boolean confirmed, Bundle bundle) {
                         if (!confirmed) {
@@ -606,7 +603,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * handle the click event for extend menu
      *
      */
-    class MyItemClickListener implements EaseChatExtendMenu.EaseChatExtendMenuItemClickListener{
+    class MyItemClickListener implements EaseChatExtendMenu.EaseChatExtendMenuItemClickListener {
 
         @Override
         public void onClick(int itemId, View view) {
@@ -877,7 +874,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      */
     protected void emptyHistory() {
         String msg = getResources().getString(R.string.Whether_to_empty_all_chats);
-        new EaseAlertDialog(getActivity(),null, msg, null,new AlertDialogUser() {
+        new EaseAlertDialog(getActivity(),null, msg, null,new EaseAlertDialog.AlertDialogUser() {
             
             @Override
             public void onResult(boolean confirmed, Bundle bundle) {

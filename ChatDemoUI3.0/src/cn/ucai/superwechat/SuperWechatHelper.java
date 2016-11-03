@@ -62,11 +62,7 @@ import cn.ucai.superwechat.ui.VideoCallActivity;
 import cn.ucai.superwechat.ui.VoiceCallActivity;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.PreferenceManager;
-<<<<<<< HEAD
-=======
 
-import static com.hyphenate.easeui.utils.EaseUserUtils.getUserInfo;
->>>>>>> 186ad0f... 本机没有dialog显示bug，添加保存到内存代码，闪屏界面执行isLoggedIn验证时，把user信息保存到内存，设置user数据的provider
 
 public class SuperWeChatHelper {
     /**
