@@ -63,8 +63,6 @@ import cn.ucai.superwechat.ui.VoiceCallActivity;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.PreferenceManager;
 
-import static com.hyphenate.easeui.utils.EaseUserUtils.getUserInfo;
-
 public class SuperWeChatHelper {
     /**
      * data sync listener
