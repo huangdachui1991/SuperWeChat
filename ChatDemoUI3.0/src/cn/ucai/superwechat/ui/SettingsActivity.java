@@ -35,7 +35,6 @@ import com.hyphenate.util.EMLog;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.SuperWeChatModel;
-import cn.ucai.superwechat.utils.ExitAppUtils;
 import cn.ucai.superwechat.utils.MFGT;
 
 /**
@@ -379,10 +378,10 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
 					public void run() {
 						pd.dismiss();
 						// show login screen
-						ExitAppUtils.getInstance().exit();
-//						finish();
-						startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-
+//						ExitAppUtils.getInstance().exit();
+						finish();
+						startActivity(new Intent(SettingsActivity.this, LoginActivity.class)
+						.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 					}
 				});
 			}
