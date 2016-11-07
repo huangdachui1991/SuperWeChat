@@ -42,6 +42,14 @@ public class EaseUserUtils {
         return null;
     }
 
+    public static User getCurrentAppUserInfo(){
+        String username = EMClient.getInstance().getCurrentUser();
+        if(userProvider != null)
+            return userProvider.getAppUser(username);
+
+        return null;
+    }
+
     /**
      * set user avatar
      * @param username
@@ -81,6 +89,7 @@ public class EaseUserUtils {
     public static void setAppUserAvatar(Context context, String username, ImageView imageView){
         User user = getAppUserInfo(username);
         if(user != null && user.getAvatar() != null){
+            Log.e(TAG,"setAppUserAvatar本地服务器用户头像="+user.getAvatar());
             try {
                 int avatarResId = Integer.parseInt(user.getAvatar());
                 Glide.with(context).load(avatarResId).into(imageView);
@@ -125,13 +134,11 @@ public class EaseUserUtils {
     }
 
     public static void setCurrentAppUserName(TextView textView) {
-
         String username = EMClient.getInstance().getCurrentUser();
-        setAppUserName("", username, textView);
+        setAppUserName("",username,textView);
     }
 
-   public static void setAppUserName(String suffix, String username, TextView textView) {
+    public static void setAppUserName(String suffix, String username, TextView textView) {
         textView.setText(suffix + username);
     }
-
 }
