@@ -43,7 +43,6 @@ import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.SuperWeChatDBManager;
-import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
@@ -211,8 +210,8 @@ public class LoginActivity extends BaseActivity {
 					if (result != null && result.isRetMsg()) {
 						User user = (User) result.getRetData();
 						if(user!=null) {
-							UserDao dao = new UserDao(mContext);
-							dao.saveAppContact(user);
+							//保存到内存和磁盘
+							SuperWeChatHelper.getInstance().saveAppContact(user);
 							loginSuccess();
 						}
 					}else{
