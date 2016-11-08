@@ -80,10 +80,10 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //	private TextView unreadAddressLable;
 //
 //	private Button[] mTabs;
-//	private ContactListFragment contactListFragment;
+	private ContactListFragment contactListFragment;
 //	private Fragment[] fragments;
 //	private int index;
-//	private int currentTabIndex;
+	private int currentTabIndex;
 	// user logged into another device
 	public boolean isConflict = false;
 	@BindView(R.id.txt_left)
@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 		ButterKnife.bind(this);
 		// runtime permission for android 6.0, just require all permissions here for simple
 		requestPermissions();
+		contactListFragment=new ContactListFragment();
 		initView();
 		umeng();
 
@@ -222,14 +223,16 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 		mLayoutViewpage.setAdapter(adapter);
 		mLayoutViewpage.setOffscreenPageLimit(4);
 		adapter.addFragment(new ConversationListFragment(), getString(R.string.app_name));
-		adapter.addFragment(new ContactListFragment(), getString(R.string.contacts));
+		adapter.addFragment(contactListFragment, getString(R.string.contacts));
 		adapter.addFragment(new DiscoverFragment(), getString(R.string.discover));
 		adapter.addFragment(new ProfileFragment(), getString(R.string.me));
 		adapter.notifyDataSetChanged();
+		currentTabIndex=0;
 		mLayoutTabhost.setChecked(0);
 		mLayoutTabhost.setOnCheckedChangeListener(this);
 		mLayoutViewpage.setOnPageChangeListener(this);
 		mTitlePopup = new TitlePopup(this, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		mTitlePopup.setItemOnClickListener(mOnItemOnClickListener);
 		mTitlePopup.addAction(new ActionItem(this, R.string.menu_groupchat, R.drawable.icon_menu_group));
 		mTitlePopup.addAction(new ActionItem(this, R.string.menu_addfriend, R.drawable.icon_menu_addfriend));
 		mTitlePopup.addAction(new ActionItem(this, R.string.menu_qrcode, R.drawable.icon_menu_sao));
@@ -329,11 +332,13 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //                    if (conversationListFragment != null) {
 //                        conversationListFragment.refresh();
 //                    }
-//                } else if (currentTabIndex == 1) {
-//                    if(contactListFragment != null) {
-//                        contactListFragment.refresh();
-//                    }
-//                }
+//                } else
+				//设置联系人fragment的刷新
+				if (currentTabIndex == 1) {
+                    if(contactListFragment != null) {
+                        contactListFragment.refresh();
+                    }
+                }
 				String action = intent.getAction();
 				if (action.equals(Constant.ACTION_GROUP_CHANAGED)) {
 					if (EaseCommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
@@ -359,6 +364,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
 	@Override
 	public void onPageSelected(int position) {
+		currentTabIndex=position;
 		mLayoutTabhost.setChecked(position);
 		mLayoutViewpage.setCurrentItem(position);
 	}
@@ -370,6 +376,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
 	@Override
 	public void onCheckedChange(int checkedPosition, boolean byUser) {
+		currentTabIndex=checkedPosition;
 		mLayoutViewpage.setCurrentItem(checkedPosition, false);
 	}
 
@@ -452,11 +459,11 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 		runOnUiThread(new Runnable() {
 			public void run() {
 				int count = getUnreadAddressCountTotal();
-//				if (count > 0) {
-//					unreadAddressLable.setVisibility(View.VISIBLE);
-//				} else {
-//					unreadAddressLable.setVisibility(View.INVISIBLE);
-//				}
+				if (count > 0) {
+					mLayoutTabhost.setHasNew(1,true);
+				} else {
+					mLayoutTabhost.setHasNew(1,false);
+				}
 			}
 		});
 
