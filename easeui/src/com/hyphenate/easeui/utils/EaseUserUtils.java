@@ -148,5 +148,15 @@ public class EaseUserUtils {
     public static void setAppUserNameWithNo(String username, TextView textView) {
         setAppUserName("微信号 : ",username,textView);
     }
-
+        //本地服务器用户头像
+    public static void setAppUserPathAvatar(Context context, String path, ImageView imageView) {
+        if(path!=null){
+            try {
+                int avatarresId=Integer.parseInt(path);
+                Glide.with(context).load(avatarresId).into(imageView);
+            }catch (Exception e){
+                Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
+            }
+        }
+    }
 }
