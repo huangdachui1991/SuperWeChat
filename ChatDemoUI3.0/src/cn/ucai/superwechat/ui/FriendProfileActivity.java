@@ -46,6 +46,8 @@ public class FriendProfileActivity extends BaseActivity {
         user = (User) getIntent().getSerializableExtra(I.User.USER_NAME);
         if (user == null) {
             MFGT.finish(this);
+            //避免只有环信好友关系的用户进入详情界面出现空指针问题
+            return;
         }
         initView();
     }

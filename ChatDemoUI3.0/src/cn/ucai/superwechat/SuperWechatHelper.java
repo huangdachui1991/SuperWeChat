@@ -652,7 +652,7 @@ public class SuperWeChatHelper {
             localUsers.remove(username);
             userDao.deleteContact(username);
             inviteMessgeDao.deleteMessage(username);
-
+            SuperWeChatHelper.getInstance().delAppContact(username);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
 
@@ -1349,4 +1349,8 @@ public class SuperWeChatHelper {
         mList.addAll(appContactList.values());
         demoModel.saveAppContactList(mList);
     }
+    public void delAppContact(String username){
+        getAppContactList().remove(username);
+        demoModel.delAppContact(username);
+   }
 }
