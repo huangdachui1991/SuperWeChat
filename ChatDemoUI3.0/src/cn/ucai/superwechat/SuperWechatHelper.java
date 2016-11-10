@@ -1,4 +1,5 @@
 package cn.ucai.superwechat;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -610,6 +611,7 @@ public class SuperWeChatHelper {
 
         @Override
         public void onContactAdded(String username) {
+            L.e(TAG,"MyContactListener,onContactAdded...");
             // save contact
             Map<String, EaseUser> localUsers = getContactList();
             Map<String, EaseUser> toAddUsers = new HashMap<String, EaseUser>();
@@ -620,17 +622,16 @@ public class SuperWeChatHelper {
             }
             toAddUsers.put(username, user);
             localUsers.putAll(toAddUsers);
-            Map<String,User> localAppUsers=getAppContactList();
+
+            Map<String, User> localAppUsers = getAppContactList();
             if(!localAppUsers.containsKey(username)){
-                //直接拿到添加的好友的基本信息的User对象。
-                NetDao.addContact(appContext,EMClient.getInstance().getCurrentUser(), username, new OkHttpUtils.OnCompleteListener<String>() {
+                NetDao.addContact(appContext, EMClient.getInstance().getCurrentUser(),username, new OkHttpUtils.OnCompleteListener<String>() {
                     @Override
                     public void onSuccess(String s) {
                         if(s!=null){
                             Result result = ResultUtils.getResultFromJson(s, User.class);
-                            if(result!=null&& result.isRetMsg()){
-                                User u= (User) result.getRetData();
-                                //添加好友的时候添加保护
+                            if(result!=null && result.isRetMsg()){
+                                User u = (User) result.getRetData();
                                 if(u!=null) {
                                     saveAppContact(u);
                                     broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
@@ -645,22 +646,25 @@ public class SuperWeChatHelper {
                     }
                 });
             }
+
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
 
         @Override
-        public void onContactDeleted(String username) {
-            L.e(TAG,"MyContactListener,onContactDeleted = ");
+        public void onContactDeleted(final String username) {
+            L.e(TAG,"MyContactListener,onContactDeleted...");
             Map<String, EaseUser> localUsers = SuperWeChatHelper.getInstance().getContactList();
             localUsers.remove(username);
             userDao.deleteContact(username);
             inviteMessgeDao.deleteMessage(username);
             SuperWeChatHelper.getInstance().delAppContact(username);
+
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
 
         @Override
         public void onContactInvited(String username, String reason) {
+            L.e(TAG,"MyContactListener,onContactInvited...");
             List<InviteMessage> msgs = inviteMessgeDao.getMessagesList();
 
             for (InviteMessage inviteMessage : msgs) {
@@ -682,7 +686,7 @@ public class SuperWeChatHelper {
 
         @Override
         public void onContactAgreed(String username) {
-            L.e(TAG,"MyContactListener,onContactAgreed = ");
+            L.e(TAG,"MyContactListener,onContactAgreed...");
             List<InviteMessage> msgs = inviteMessgeDao.getMessagesList();
             for (InviteMessage inviteMessage : msgs) {
                 if (inviteMessage.getFrom().equals(username)) {
@@ -1110,11 +1114,45 @@ public class SuperWeChatHelper {
     }
 
     public void asyncFetchContactsFromServer(final EMValueCallBack<List<String>> callback){
+        L.e(TAG,"asyncFetchContactsFromServer....."+EMClient.getInstance().getCurrentUser());
         if(isSyncingContactsWithServer){
             return;
         }
 
         isSyncingContactsWithServer = true;
+
+        NetDao.loadContact(appContext, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if(s!=null){
+                    Result result = ResultUtils.getListResultFromJson(s, User.class);
+                    if(result!=null && result.isRetMsg()){
+                        List<User> list = (List<User>) result.getRetData();
+                        if(list!=null && list.size()>0){
+                            L.e(TAG,"list="+list.size());
+                            Map<String, User> userlist = new HashMap<String, User>();
+                            for (User user : list) {
+                                EaseCommonUtils.setAppUserInitialLetter(user);
+                                userlist.put(user.getMUserName(), user);
+                            }
+                            // save the contact list to cache
+                            getAppContactList().clear();
+                            getAppContactList().putAll(userlist);
+                            // save the contact list to database
+                            UserDao dao = new UserDao(appContext);
+                            List<User> users = new ArrayList<User>(userlist.values());
+                            dao.saveAppContactList(users);
+                            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
 
         new Thread(){
             @Override
@@ -1352,8 +1390,12 @@ public class SuperWeChatHelper {
         mList.addAll(appContactList.values());
         demoModel.saveAppContactList(mList);
     }
+
+    /**
+     * save single contact
+     */
     public void delAppContact(String username){
         getAppContactList().remove(username);
         demoModel.delAppContact(username);
-   }
+    }
 }
