@@ -447,7 +447,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 	}
 
 	/**
-	 * update unread message count
+	 * update unread message count更新未读信息count
 	 */
 	public void updateUnreadLabel() {
 		int count = getUnreadMsgCountTotal();
