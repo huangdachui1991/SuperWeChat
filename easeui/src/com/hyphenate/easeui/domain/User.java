@@ -105,13 +105,6 @@ public class User implements Serializable {
 //		this.initialLetter = initialLetter;
 //	}
 
-	@Override
-	public String toString() {
-		return "UserAvatar [muserName=" + muserName + ", muserNick=" + muserNick + ", mavatarId=" + mavatarId
-				+ ", mavatarPath=" + mavatarPath + ", mavatarSuffix=" + mavatarSuffix + ", mavatarType=" + mavatarType
-				+ ", mavatarLastUpdateTime=" + mavatarLastUpdateTime + "]";
-	}
-
 	public String getInitialLetter() {
 		if(initialLetter == null){
 			EaseCommonUtils.setAppUserInitialLetter(this);
@@ -127,5 +120,19 @@ public class User implements Serializable {
 		String path = "http://101.251.196.90:8000/SuperWeChatServerV2.0/downloadAvatar?name_or_hxid="+getMUserName()
 				+"&avatarType=user_avatar&m_avatar_suffix="+getMAvatarSuffix()+"&updatetime="+getMAvatarLastUpdateTime();
 		return path;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"initialLetter='" + initialLetter + '\'' +
+				", muserName='" + muserName + '\'' +
+				", muserNick='" + muserNick + '\'' +
+				", mavatarId=" + mavatarId +
+				", mavatarPath='" + mavatarPath + '\'' +
+				", mavatarSuffix='" + mavatarSuffix + '\'' +
+				", mavatarType=" + mavatarType +
+				", mavatarLastUpdateTime='" + mavatarLastUpdateTime + '\'' +
+				'}';
 	}
 }

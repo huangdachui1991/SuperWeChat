@@ -630,8 +630,11 @@ public class SuperWeChatHelper {
                             Result result = ResultUtils.getResultFromJson(s, User.class);
                             if(result!=null&& result.isRetMsg()){
                                 User u= (User) result.getRetData();
-                                saveAppContact(u);
-                                broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                                //添加好友的时候添加保护
+                                if(u!=null) {
+                                    saveAppContact(u);
+                                    broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                                }
                             }
                         }
                     }
