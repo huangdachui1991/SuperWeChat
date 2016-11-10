@@ -1120,7 +1120,7 @@ public class SuperWeChatHelper {
         }
 
         isSyncingContactsWithServer = true;
-
+        //登录成功后从服务器获取全部的联系人数据,并保存到内存和数据库中
         NetDao.loadContact(appContext, new OkHttpUtils.OnCompleteListener<String>() {
             @Override
             public void onSuccess(String s) {
