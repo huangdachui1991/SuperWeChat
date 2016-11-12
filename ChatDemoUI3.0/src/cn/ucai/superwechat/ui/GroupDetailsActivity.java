@@ -13,24 +13,6 @@
  */
 package cn.ucai.superwechat.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hyphenate.EMGroupChangeListener;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMConversation.EMConversationType;
-import com.hyphenate.chat.EMGroup;
-import cn.ucai.superwechat.R;
-import com.hyphenate.easeui.utils.EaseUserUtils;
-import com.hyphenate.easeui.widget.EaseAlertDialog;
-import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
-import com.hyphenate.easeui.widget.EaseExpandGridView;
-import com.hyphenate.easeui.widget.EaseSwitchButton;
-import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.EMLog;
-import com.hyphenate.util.NetUtils;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +33,26 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hyphenate.EMGroupChangeListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMConversation.EMConversationType;
+import com.hyphenate.chat.EMGroup;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.widget.EaseAlertDialog;
+import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
+import com.hyphenate.easeui.widget.EaseExpandGridView;
+import com.hyphenate.easeui.widget.EaseSwitchButton;
+import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.util.EMLog;
+import com.hyphenate.util.NetUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.utils.MFGT;
 
 public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
 	private static final String TAG = "GroupDetailsActivity";
@@ -307,7 +309,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 退出群组
 	 * 
-	 * @param groupId
+	 * @param
 	 */
 	private void exitGrop() {
 		String st1 = getResources().getString(R.string.Exit_the_group_chat_failure);
@@ -339,7 +341,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 解散群组
 	 * 
-	 * @param groupId
+	 * @param
 	 */
 	private void deleteGrop() {
 		final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
@@ -641,6 +643,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							// Intent(GroupDetailsActivity.this,
 							// ChatActivity.class).putExtra("userId",
 							// user.getUsername()));
+							MFGT.gotoFriendProfile(GroupDetailsActivity.this,username);
 
 						}
 					}
