@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2016 Hyphenate Inc. All rights reserved.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,13 +38,27 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatHelper;
+import cn.ucai.superwechat.utils.MFGT;
 
 public class GroupPickContactsActivity extends BaseActivity {
 	/** if this is a new group */
 	protected boolean isCreatingNewGroup;
+	@BindView(R.id.img_back)
+	ImageView mImgBack;
+	@BindView(R.id.txt_title)
+	TextView mTxtTitle;
+	@BindView(R.id.txt_right)
+	TextView mTxtRight;
+	@BindView(R.id.list)
+	ListView mList;
+	@BindView(R.id.sidebar)
+	EaseSidebar mSidebar;
 	private PickContactAdapter contactAdapter;
 	/** members already in the group */
 	private List<String> existMembers;
@@ -53,6 +67,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.em_activity_group_pick_contacts);
+		ButterKnife.bind(this);
 
 		String groupId = getIntent().getStringExtra("groupId");
 		if (groupId == null) {// create new group
@@ -62,12 +77,21 @@ public class GroupPickContactsActivity extends BaseActivity {
 			EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
 			existMembers = group.getMembers();
 		}
-		if(existMembers == null)
+		if (existMembers == null)
 			existMembers = new ArrayList<String>();
+		initView();
+		initData();
+	}
+
+	private void initData() {
 		// get contact list
 		final List<User> alluserList = new ArrayList<User>();
 		for (User user : SuperWeChatHelper.getInstance().getAppContactList().values()) {
-			if (!user.getMUserName().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getMUserName().equals(Constant.GROUP_USERNAME) & !user.getMUserName().equals(Constant.CHAT_ROOM) & !user.getMUserName().equals(Constant.CHAT_ROBOT))
+			if (!user.getMUserName().equals(Constant.NEW_FRIENDS_USERNAME) &
+					!user.getMUserName().equals(Constant.GROUP_USERNAME) &
+					!user.getMUserName().equals(Constant.CHAT_ROOM) &
+					!user.getMUserName().equals(Constant.CHAT_ROBOT) &
+					!user.getMUserName().equals(EMClient.getInstance().getCurrentUser()))
 				alluserList.add(user);
 		}
 		// sort the list
@@ -75,12 +99,12 @@ public class GroupPickContactsActivity extends BaseActivity {
 
 			@Override
 			public int compare(User lhs, User rhs) {
-				if(lhs.getInitialLetter().equals(rhs.getInitialLetter())){
+				if (lhs.getInitialLetter().equals(rhs.getInitialLetter())) {
 					return lhs.getMUserNick().compareTo(rhs.getMUserNick());
-				}else{
-					if("#".equals(lhs.getInitialLetter())){
+				} else {
+					if ("#".equals(lhs.getInitialLetter())) {
 						return 1;
-					}else if("#".equals(rhs.getInitialLetter())){
+					} else if ("#".equals(rhs.getInitialLetter())) {
 						return -1;
 					}
 					return lhs.getInitialLetter().compareTo(rhs.getInitialLetter());
@@ -89,11 +113,10 @@ public class GroupPickContactsActivity extends BaseActivity {
 			}
 		});
 
-		ListView listView = (ListView) findViewById(R.id.list);
 		contactAdapter = new PickContactAdapter(this, R.layout.em_row_contact_with_checkbox, alluserList);
-		listView.setAdapter(contactAdapter);
-		((EaseSidebar) findViewById(R.id.sidebar)).setListView(listView);
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		mList.setAdapter(contactAdapter);
+		mSidebar.setListView(mList);
+		mList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,12 +127,15 @@ public class GroupPickContactsActivity extends BaseActivity {
 		});
 	}
 
-	/**
-	 * save selected members
-	 *
-	 * @param v
-	 */
-	public void save(View v) {
+	private void initView() {
+		mImgBack.setVisibility(View.VISIBLE);
+		mTxtTitle.setVisibility(View.VISIBLE);
+		mTxtTitle.setText(getString(R.string.Select_the_contact));
+		mTxtRight.setVisibility(View.VISIBLE);
+		mTxtRight.setText(getString(R.string.button_save));
+	}
+
+	public void save() {
 		List<String> var = getToBeAddMembers();
 		setResult(RESULT_OK, new Intent().putExtra("newmembers", var.toArray(new String[var.size()])));
 		finish();
@@ -131,6 +157,18 @@ public class GroupPickContactsActivity extends BaseActivity {
 		}
 
 		return members;
+	}
+
+	@OnClick({R.id.img_back, R.id.txt_right})
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.img_back:
+				MFGT.finish(this);
+				break;
+			case R.id.txt_right:
+				save();
+				break;
+		}
 	}
 
 	/**
@@ -156,9 +194,9 @@ public class GroupPickContactsActivity extends BaseActivity {
 			TextView nameView = (TextView) view.findViewById(R.id.name);
 
 			if (checkBox != null) {
-				if(existMembers != null && existMembers.contains(username)){
+				if (existMembers != null && existMembers.contains(username)) {
 					checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_gray_selector);
-				}else{
+				} else {
 					checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
 				}
 
@@ -187,7 +225,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 		}
 	}
 
-	public void back(View view){
+	public void back(View view) {
 		finish();
 	}
 
