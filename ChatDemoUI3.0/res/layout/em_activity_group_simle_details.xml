@@ -8,10 +8,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-        android:background="@color/top_bar_normal_bg"
+        android:background="@color/colorPrimary"
         android:gravity="center_vertical" >
-		
-        <include 
+
+        <include
             layout="@layout/ease_commom_back_btn"
             />
 
@@ -108,7 +108,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                 android:id="@+id/tv_introduction"
+                android:id="@+id/tv_introduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

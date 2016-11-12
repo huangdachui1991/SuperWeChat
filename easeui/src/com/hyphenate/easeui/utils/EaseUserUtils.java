@@ -13,6 +13,7 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.controller.EaseUI.EaseUserProfileProvider;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.Group;
 import com.hyphenate.easeui.domain.User;
 
 public class EaseUserUtils {
@@ -92,13 +93,49 @@ public class EaseUserUtils {
             user = new User(username);
         }
         if(user != null && user.getAvatar() != null){
-            Log.e(TAG,"setAppUserAvatar本地服务器用户头像="+user.getAvatar());
+            Log.e(TAG,"setAppUserAvatar="+user.getAvatar());
             try {
                 int avatarResId = Integer.parseInt(user.getAvatar());
                 Glide.with(context).load(avatarResId).into(imageView);
             } catch (Exception e) {
                 //use default avatar
                 Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.default_hd_avatar).into(imageView);
+            }
+        }else{
+            Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
+        }
+    }
+
+    /**
+     * set group avatar
+     * @param hxid
+     */
+    public static void setAppGroupAvatar(Context context, String hxid, ImageView imageView){
+        if(hxid != null){
+            try {
+                int avatarResId = Integer.parseInt(Group.getAvatar(hxid));
+                Glide.with(context).load(avatarResId).into(imageView);
+            } catch (Exception e) {
+                //use default avatar
+                Glide.with(context).load(Group.getAvatar(hxid)).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_group_icon).into(imageView);
+            }
+        }else{
+            Glide.with(context).load(R.drawable.ease_group_icon).into(imageView);
+        }
+    }
+
+    /**
+     * set user avatar
+     * @param path
+     */
+    public static void setAppUserPathAvatar(Context context, String path, ImageView imageView){
+        if(path != null){
+            try {
+                int avatarResId = Integer.parseInt(path);
+                Glide.with(context).load(avatarResId).into(imageView);
+            } catch (Exception e) {
+                //use default avatar
+                Glide.with(context).load(path).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.default_hd_avatar).into(imageView);
             }
         }else{
             Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
@@ -136,6 +173,10 @@ public class EaseUserUtils {
         setAppUserName("微信号 : ",username,textView);
     }
 
+    public static void setAppUserNameWithNo(String username, TextView textView) {
+        setAppUserName("微信号 : ",username,textView);
+    }
+
     public static void setCurrentAppUserName(TextView textView) {
         String username = EMClient.getInstance().getCurrentUser();
         setAppUserName("",username,textView);
@@ -143,27 +184,5 @@ public class EaseUserUtils {
 
     public static void setAppUserName(String suffix, String username, TextView textView) {
         textView.setText(suffix + username);
-    }
-
-    public static void setAppUserNameWithNo(String username, TextView textView) {
-        setAppUserName("微信号 : ",username,textView);
-    }
-        //本地服务器用户头像
-    /**
-     * set user avatar
-     * @param path
-     */
-    public static void setAppUserPathAvatar(Context context, String path, ImageView imageView){
-        if(path != null){
-            try {
-                int avatarResId = Integer.parseInt(path);
-                Glide.with(context).load(avatarResId).into(imageView);
-            } catch (Exception e) {
-                //use default avatar
-                Glide.with(context).load(path).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.default_hd_avatar).into(imageView);
-            }
-        }else{
-            Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
-        }
     }
 }

@@ -18,6 +18,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +26,17 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupInfo;
-import cn.ucai.superwechat.R;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.exceptions.HyphenateException;
+
+import cn.ucai.superwechat.R;
 
 public class GroupSimpleDetailActivity extends BaseActivity {
 	private Button btn_add_group;
 	private TextView tv_admin;
 	private TextView tv_name;
 	private TextView tv_introduction;
+	private ImageView iv_avatar;
 	private EMGroup group;
 	private String groupid;
 	private ProgressBar progressBar;
@@ -46,26 +50,27 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 		btn_add_group = (Button) findViewById(R.id.btn_add_to_group);
 		tv_introduction = (TextView) findViewById(R.id.tv_introduction);
 		progressBar = (ProgressBar) findViewById(R.id.loading);
+		iv_avatar = (ImageView) findViewById(R.id.avatar);
 
 		EMGroupInfo groupInfo = (EMGroupInfo) getIntent().getSerializableExtra("groupinfo");
 		String groupname = null;
 		if(groupInfo != null){
-		    groupname = groupInfo.getGroupName();
-		    groupid = groupInfo.getGroupId();
+			groupname = groupInfo.getGroupName();
+			groupid = groupInfo.getGroupId();
 		}else{
-		    group = PublicGroupsSeachActivity.searchedGroup;
-		    if(group == null)
-		        return;
-		    groupname = group.getGroupName();
-		    groupid = group.getGroupId();
+			group = PublicGroupsSeachActivity.searchedGroup;
+			if(group == null)
+				return;
+			groupname = group.getGroupName();
+			groupid = group.getGroupId();
 		}
-		
+
 		tv_name.setText(groupname);
-		
-		
+
+
 		if(group != null){
-		    showGroupDetail();
-		    return;
+			showGroupDetail();
+			return;
 		}
 		new Thread(new Runnable() {
 
@@ -88,12 +93,12 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 						}
 					});
 				}
-				
+
 			}
 		}).start();
-		
+
 	}
-	
+
 	//join the group
 	public void addToGroup(View view){
 		String st1 = getResources().getString(R.string.Is_sending_a_request);
@@ -110,9 +115,9 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 				try {
 					//if group is membersOnly，you need apply to join
 					if(group.isMembersOnly()){
-					    EMClient.getInstance().groupManager().applyJoinToGroup(groupid, st2);
+						EMClient.getInstance().groupManager().applyJoinToGroup(groupid, st2);
 					}else{
-					    EMClient.getInstance().groupManager().joinGroup(groupid);
+						EMClient.getInstance().groupManager().joinGroup(groupid);
 					}
 					runOnUiThread(new Runnable() {
 						public void run() {
@@ -136,18 +141,19 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 			}
 		}).start();
 	}
-	
-     private void showGroupDetail() {
-         progressBar.setVisibility(View.INVISIBLE);
 
-         //get group detail, and you are not in, then show join button
-         if(!group.getMembers().contains(EMClient.getInstance().getCurrentUser()))
-             btn_add_group.setEnabled(true);
-         tv_name.setText(group.getGroupName());
-         tv_admin.setText(group.getOwner());
-         tv_introduction.setText(group.getDescription());
-     }
-	
+	private void showGroupDetail() {
+		progressBar.setVisibility(View.INVISIBLE);
+
+		//get group detail, and you are not in, then show join button
+		if(!group.getMembers().contains(EMClient.getInstance().getCurrentUser()))
+			btn_add_group.setEnabled(true);
+		tv_name.setText(group.getGroupName());
+		tv_admin.setText(group.getOwner());
+		tv_introduction.setText(group.getDescription());
+		EaseUserUtils.setAppGroupAvatar(this,group.getGroupId(),iv_avatar);
+	}
+
 	public void back(View view){
 		finish();
 	}
